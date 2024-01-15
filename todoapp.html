@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="todostyle.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+</style>
+</head>
+<body>
+
+<div class="split left">
+    <h2 style="text-align: center;color: rgb(3, 3, 46);">To-Do List Web App</h2>
+    <form action="">
+    <input type="text" class="title" id="title" placeholder="Title" required><br><br>
+    <textarea class="desc" id="desc" placeholder="Description"></textarea>
+    <button class="save" id="save" onclick="return addRows()">Save</button>
+    </form>
+    
+</div>
+
+<div class="split right">
+    <div class="up">
+        <h2 style="color: whitesmoke; border-bottom: groove;">Pending Tasks</h2>
+        <table id="uptable" class="uptable">
+            <tr style="font-size: 25px;">
+                <th style="color: whitesmoke;">Title</th>
+                <th style="color: whitesmoke;">Description</th>
+                <th style="color: whitesmoke;">Completed</th>
+                <th style="color: whitesmoke;">Delete</th>
+            </tr>
+            <tr style="text-align: center;">
+                <td style="color: whitesmoke;"></td>
+                <td style="color: whitesmoke;"></th>
+                <td><button class="btnchk" style="visibility: hidden;" onclick="addCRows(this)"><i class="fa fa-check"></i></button></th>
+                <td><button class="btndel" style="visibility: hidden;" onclick="deleteRow(this)"><i class="fa fa-trash"></i></button></th>
+            </tr>
+        </table>
+    </div>
+    <div class="down">
+        <h2 style="color: whitesmoke; border-bottom: groove;">Completed Tasks</h2>
+        <table class="downtable" id="downtable">
+            <!-- <tr style="text-align: center;">
+                <th style="color: whitesmoke;">Title</th>
+            </tr> -->
+            <tr style="text-align: center;">
+                <td style="color: whitesmoke;"></td><br>
+            </tr>
+        </table>
+    </div>
+</div>
+     
+<script>
+    function addRows() {
+    var table = document.getElementById("uptable");
+    var rcnt = table.rows.length;
+    var row = table.insertRow(rcnt);
+
+    var title = document.getElementById("title").value;
+    var desc = document.getElementById("desc").value;
+
+    for (var i = 0; i < table.rows[1].cells.length; i++) {
+        var cell = row.insertCell(i);
+        cell.innerHTML = table.rows[1].cells[i].innerHTML;
+
+        cell.style.textAlign = "center";
+        cell.style.color="white";
+    }
+
+    row.cells[0].innerHTML = title; 
+    row.cells[1].innerHTML = desc;  
+
+    row.cells[2].children[0].style.visibility = "visible"; // Completed button
+    row.cells[3].children[0].style.visibility = "visible"; // Delete button
+
+    document.getElementById("title").value="";
+    document.getElementById("desc").value="";
+    return false;
+}
+
+function deleteRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+    //Row deleted
+}
+
+function addCRows(btn) {
+    var row = btn.parentNode.parentNode;
+    var title = row.cells[0].innerText;
+    
+    // Add title to the "Completed Tasks" table
+    var downtable = document.getElementById("downtable");
+    var newRow = downtable.insertRow(downtable.rows.length);
+    var cell = newRow.insertCell(0);
+    cell.innerHTML = title;
+   
+    cell.style.color="white";
+
+    // Remove the row from the "Pending Tasks" table
+    row.parentNode.removeChild(row);
+}
+
+</script>
+</body>
+</html> 
